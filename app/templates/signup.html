@@ -1,0 +1,66 @@
+
+{% extends "base.html" %}
+
+{% block main %}
+  <div class="login-form center-block">
+    <h2>Create a free account today!</h2>
+    {% include 'flash_messages.html' %}
+   <form action="{{url_for('signup')}}" class="form-horizontal" method="POST">
+        {{ form.hidden_tag() }}
+        <div class="heading">
+        <h4 class="form-heading">Share your profile!</h4>
+        </div>
+        
+         <div class="form-group {% if form.FirstName.errors %} has-error {% endif %}">
+        {{form.FirstName.label(class="col-sm-4")}}
+        <div class="col-sm-3">
+        {{form.FirstName(placeholder="Jon", class="form-control")}}
+        </div>
+        <p class="col-sm-5 help-block">
+        {{ form.FirstName.errors[0] }}
+        </div>
+        
+        <div class="form-group {% if form.LastName.errors %} has-error {% endif %}">
+        {{form.LastName.label(class="col-sm-4")}}
+        <div class="col-sm-3">
+        {{form.LastName(placeholder="Snow", class="form-control")}}
+        </div>
+        <p class="col-sm-5 help-block">
+        {{ form.LastName.errors[0] }}
+        </div>
+        
+        <div class="form-group {% if form.email.errors %} has-error {% endif %}">
+        {{form.email.label(class="col-sm-4")}}
+        <div class="col-sm-3">
+        {{ form.email(placeholder="E.g. jon.snow@wayne.com", class="form-control") }} 
+        </div>
+        <p class="col-sm-5 help-block">
+        {{ form.email.errors[0] }}
+        </div>
+        <div class="form-group {% if form.password.errors %} has-error {% endif %}">
+        {{form.password.label(class="col-sm-4")}}
+        <div class="col-sm-3">
+        {{ form.password(placeholder="new password", class="form-control") }}
+        </div>
+        <p class="col-sm-5 help-block">
+        {{ form.password.errors[0] }}
+        </div>
+        <div class="form-group {% if form.username.errors %} has-error {% endif %}">
+        {{form.username.label(class="col-sm-4")}}
+        <div class="col-sm-3">
+        {{form.username(placeholder="iKnowNothing", class="form-control")}}
+        </div>
+        <p class="col-sm-5 help-block">
+        {{ form.username.errors[0] }}
+        </div>
+        <div class="form-group {% if form.agree.errors %} has-error {% endif %}">
+        <label class="checkbox col-sm-7">
+        {{form.agree}} {{form.agree.label}}
+        </label>
+        <p class="col-sm-5 help-block">
+        {{ form.agree.errors[0] }}
+        </div>
+        <button class="btn btn-success" type="submit">Sign Up</button>
+    </form>
+  </div>
+{% endblock %}
