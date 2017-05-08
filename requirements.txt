@@ -1,14 +1,28 @@
 # ----------------------
-# Flask
+# Flask==0.12
 # ----------------------
-flask
-Flask-WTF
-Flask-SQLAlchemy
-Flask-Migrate
-Flask-Login
-psycopg2
+
+Flask-Login==0.4.0
+Flask-Migrate==2.0.3
+Flask-SQLAlchemy==2.2
+Flask-Script==2.0.5
+Flask-WTF==0.14.2
+Jinja2==2.9.5
+Mako==1.0.6
+MarkupSafe==1.0
+SQLAlchemy==1.1.6
+WTForms==2.1
+Werkzeug==0.11.15
+alembic==0.9.1
+argparse==1.2.1
+click==6.7
+itsdangerous==0.24
+psycopg2==2.7
+python-editor==1.0.3
+wsgiref==0.1.2
+
 
 # ----------------------
 # Production Server
 # ----------------------
-gunicorn
+gunicorn==19.7.0
