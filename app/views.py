@@ -10,6 +10,9 @@ from flask import render_template, request, redirect, url_for, flash
 from flask_login import login_user, logout_user, current_user, login_required
 from forms import LoginForm, SignupForm
 from models import UserProfile
+from flask import jsonify
+import time
+
 
 @app.route('/')
 def home():
@@ -26,6 +29,10 @@ def signup():
             email = form.email.data
             password = form.password.data
             username = form.username.data
+            image= "https://www.timeshighereducation.com/sites/default/files/byline_photos/default-avatar.png"
+            age = 18
+            bio = "Edit your bio"
+            created_on = time.strftime("%c")
 
             # retrieve user from database
             user = UserProfile.query.filter_by(username=username, password=password).first()
@@ -39,7 +46,11 @@ def signup():
             user = UserProfile(first_name=FirstName,
                                last_name=LastName,
                                password=password,
-                               username=username)
+                               username=username,
+                               created_on=created_on,
+                               bio = bio,
+                               age=age,
+                               image=image)
 
             # insert user into UserProfile
             db.session.add(user)
@@ -63,7 +74,7 @@ def login():
           next = request.args.get('next')
           user = UserProfile.query.filter_by(username=username, password=password).first()
           userid = user.id
-          return redirect(url_for('secure_page',userid=userid))
+          return redirect(url_for('profile',userid=userid))
       else:
           flash('Username or Password is incorrect.', 'danger')
           flash(form)
@@ -74,19 +85,76 @@ def login():
 @login_manager.user_loader
 def load_user(id):
     return UserProfile.query.get(int(id))
+    
+def request_wants_json():
+    best = request.accept_mimetypes \
+        .best_match(['application/json', 'text/html'])
+    return best == 'application/json' and \
+        request.accept_mimetypes[best] > \
+        request.accept_mimetypes['text/html']
 
-@app.route('/secure_page/<userid>')
+@app.route('/profile/<userid>')
 @login_required
-def secure_page(userid):
+def profile(userid):
     user = UserProfile.query.filter_by(id=userid).first()
-    print user.username
-    return render_template('nothing_to_see.html',username=user.username)
+    if user == None:
+        flash('User ID %s not found.' % userid)
+        return redirect(url_for('home'))
+    
+    if request_wants_json():
+        return jsonify(items=[x.to_json() for x in user])
+        
+    return render_template('profile.html',
+                           user=user)
     
 @app.route('/logout')
 def logout():
     logout_user()
     return redirect(url_for('home'))
     
+###
+#   Editing profile
+###
+@login_required
+@app.route('/user_edit_first_name',methods=['GET', 'POST'])
+def user_edit_first_name():
+    id = request.form["pk"]
+    user = UserProfile.query.get(id)
+    user.first_name = request.form["value"]
+    result = {}
+    db.session.commit()
+    return jsonify(result) #or, as it is an empty json, you can simply use return "{}"
+    
+@login_required
+@app.route('/user_edit_last_name',methods=['GET', 'POST'])
+def user_edit_last_name():
+    id = request.form["pk"]
+    user = UserProfile.query.get(id)
+    user.last_name = request.form["value"]
+    result = {}
+    db.session.commit()
+    return jsonify(result)
+
+@login_required
+@app.route('/user_edit_tagline',methods=['GET', 'POST'])
+def user_edit_tagline(id):
+    id = request.form["pk"]
+    user = UserProfile.query.get(id)
+    user.tagline = request.form["value"]
+    result = {}
+    db.session.commit()
+    return jsonify(result)
+    
+@login_required    
+@app.route('/user_edit_biography',methods=['GET', 'POST'])
+def user_edit_biography():
+    id = request.form["pk"]
+    user = Users.query.get(id)
+    user.bio = request.form["value"]
+    result = {}
+    db.session.commit()
+    return jsonify(result)
+
 ###
 # The functions below should be applicable to all Flask apps.
 ###

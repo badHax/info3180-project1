@@ -6,7 +6,12 @@ class UserProfile(db.Model):
     last_name = db.Column(db.String(80))
     username = db.Column(db.String(80), unique=True)
     password = db.Column(db.String(255))
-
+    created_on = db.Column(db.DateTime)
+    image = db.Column(db.String(255))
+    age = db.Column(db.Integer)
+    bio = db.Column(db.String(255))
+    gender = db.Column(db.String(6))
+    
     def is_authenticated(self):
         return True
 

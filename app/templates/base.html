@@ -17,6 +17,8 @@
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
     <link rel="stylesheet" href="/static/css/app.css">
+    <link rel="stylesheet" href="/static/css/bootstrap-editable.css">
+    
     {% block css %} {% endblock%}
   </head>
   <body>
@@ -36,8 +38,44 @@
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="/static/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/js/bootstrap-editable.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
     {% block js %} {% endblock%}
   </body>
+   <script>
+    (function(){
+        /*global $*/
+        
+        $('#firstname').editable({
+            placement: "right",
+            error: function (errors) {
+            }
+        });
+        
+        $('#lastname').editable({
+            placement: "right",
+            error: function (errors) {
+            }
+        
+        });
+        $('#username').editable({
+            placement: "right",            
+            error: function (errors) {                
+            }
+        });
+        
+        $('#image').editable({
+            placement: "right",            
+            error: function (errors) {                
+            }
+        });
+        
+        $('#biography').editable({
+            placement:"right",
+            error: function (errors) {
+            }
+        });
+    })();
+    </script>
 </html>

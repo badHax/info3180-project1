@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+
+{% block main %}
+    
+    
+    <div class="container">
+        {% if current_user.is_authenticated %}
+                <img id="image" src="{{user.image}}">
+            {% else %}
+               <img id="image" src="{{user.image}}" data-url="/user_edit_image" data-pk="{{user.id}}">
+            {% endif %}
+        
+        <div>
+            {% if current_user.is_authenticated %}
+                <h1><a href="#" id="firstname" data-type="text" data-url="/user_edit_first_name" data-pk="{{user.id}}"  data-title="Change your first name">{{ user.first_name }}</a></h1>
+                <h1><a href="#" id="lastname" data-type="text" data-url="/user_edit_last_name" data-pk="{{user.id}}"  data-title="Change your first name">{{ user.last_name }}</a></h1>
+            {% else %}
+                <h1>{{ user.first_name }}</h1>
+                <h1>{{ user.last_name }}</h1>
+            {% endif %}
+            
+            <p>Created on: {{user.created_on}}</p>
+        </div>
+        <div>
+            {% if current_user.is_authenticated %}
+                <p><a href="#" id="username" data-type="text" data-url="/user_edit_username" data-pk="{{user.id}}"  data-title="Change your username">{{ user.username }}</p>
+            {% else %}
+                <h1>{{ user.username }}</h1>
+            {% endif %}
+            <p>User ID: {{user_id}}</p>
+            <p>Gender: {{user.gender}}</p>
+            <p>Age: {{user.age}}</p>
+        </div>
+        <div id="bio">
+            {% if current_user.is_authenticated %}
+                <h1><a href="#" id="biography" data-type="text" data-url="/user_edit_biography" data-pk="{{user.id}}"  data-title="Change your fullname">{{ user.bio }}</a></h1>
+            {% else %}
+                <h1>{{ user.bio }}</h1>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}
+ <script>
+    (function(){
+        /*global $*/
+        
+        $('#firstname').editable({
+            placement: "right",
+            error: function (errors) {
+            }
+        });
+        
+        $('#lastname').editable({
+            placement: "right",
+            error: function (errors) {
+            }
+        
+        });
+        $('#username').editable({
+            placement: "right",            
+            error: function (errors) {                
+            }
+        });
+        
+        $('#image').editable({
+            placement: "right",            
+            error: function (errors) {                
+            }
+        });
+        
+        $('#biography').editable({
+            placement:"right",
+            error: function (errors) {
+            }
+        });
+    })();
+    </script>
